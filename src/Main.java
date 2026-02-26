@@ -1,15 +1,24 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        if (args.length < 2) {
+            System.err.println("Usage: java Main <input> <output>");
+            System.exit(1);
+        }
+        Path input = Path.of(args[0]);
+        Path output = Path.of(args[1]);
+        try {
+            String text = Files.readString(input, StandardCharsets.UTF_8);
+            String result = new PhoneNormalizer().normalizePhoneNumbers(text);
+            Files.writeString(output, result, StandardCharsets.UTF_8);
+            System.out.println("Done. Output: " + output.toAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("I/O error: " + e.getMessage());
+            System.exit(2);
         }
     }
 }
