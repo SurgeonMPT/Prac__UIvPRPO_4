@@ -13,8 +13,7 @@ public class PhoneNormalizer {
             m.appendReplacement(sb, Matcher.quoteReplacement(normalized));
         }
         m.appendTail(sb);
-        // return sb.toString();
-        return
+        return sb.toString();
     }
 
     private String normalizeWhitespace(String s) {
